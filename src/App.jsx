@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { ThemeProvider } from './context/ThemeContext.jsx';
+import { AuthGate } from './modules/auth/AuthGate.jsx';
+import Shell from './layout/Shell.jsx';
+import Builder from './routes/Builder.jsx';
+import Preview from './routes/Preview.jsx';
+import Fill from './routes/Fill.jsx';
+import Responses from './routes/Responses.jsx';
+import Settings from './routes/Settings.jsx';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App(){
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider>
+      <AuthGate>
+        <Shell>
+          <Routes>
+            <Route path="/" element={<Navigate to="/forms/new" replace />} />
+            <Route path="/forms/new" element={<Builder />} />
+            <Route path="/forms/:formId/builder" element={<Builder />} />
+            <Route path="/forms/:formId/preview" element={<Preview />} />
+            <Route path="/forms/:formId/fill" element={<Fill />} />
+            <Route path="/forms/:formId/responses" element={<Responses />} />
+            <Route path="/forms/:formId/settings" element={<Settings />} />
+          </Routes>
+        </Shell>
+      </AuthGate>
+    </ThemeProvider>
+  );
 }
-
-export default App
