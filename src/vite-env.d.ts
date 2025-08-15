@@ -1,3 +1,4 @@
+// Helps TypeScript understand Vite's environment variables
 interface ImportMetaEnv {
   readonly VITE_FIREBASE_API_KEY: string;
   readonly VITE_FIREBASE_AUTH_DOMAIN: string;
